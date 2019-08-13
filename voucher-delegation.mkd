@@ -1,0 +1,69 @@
+---
+title: Delegated Authority for Bootstrap Voucher Artifacts
+abbrev: delegated-voucher
+docname: draft-richardson-anima-voucher-delegation-00
+
+# stand_alone: true
+
+ipr: trust200902
+area: Internet
+wg: anima Working Group
+kw: Internet-Draft
+cat: std
+
+coding: us-ascii
+pi:    # can use array (if all yes) or hash here
+  toc: yes
+  sortrefs:   # defaults to yes
+  symrefs: yes
+
+author:
+
+- ins: M. Richardson
+  name: Michael Richardson
+  org: Sandelman Software Works
+  email: mcr+ietf@sandelman.ca
+
+normative:
+  BCP14: RFC8174
+  RFC8366:
+  I-D.ietf-anima-bootstrapping-keyinfra:
+  I-D.ietf-anima-constrained-voucher:
+
+informative:
+
+
+--- abstract
+
+This document describes an extension of the RFC8366 Voucher Artifact
+in order to support delegation of signing authority.  The initial voucher
+pins a public identity, and that public indentity can then issue additional
+vouchers.  This chain of authorization supports permission-less resale
+of devices, as well as guarding against business failure of the
+BRSKI Manufacturer Authorized Signing Authority (MASA).
+
+--- middle
+
+# Introduction
+
+XXX
+
+# Privacy Considerations
+
+YYY
+
+# Security Considerations
+
+ZZZ
+
+# IANA Considerations
+
+# Acknowledgements
+
+Hello.
+
+# Changelog
+
+
+--- back
+
