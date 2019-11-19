@@ -38,7 +38,7 @@ informative:
 This document describes an extension of the RFC8366 Voucher Artifact
 in order to support delegation of signing authority.  The initial voucher
 pins a public identity, and that public indentity can then issue additional
-vouchers.  This chain of authorization supports permission-less resale
+vouchers.  This chain of authorization can support permission-less resale
 of devices, as well as guarding against business failure of the
 BRSKI Manufacturer Authorized Signing Authority (MASA).
 
@@ -46,7 +46,26 @@ BRSKI Manufacturer Authorized Signing Authority (MASA).
 
 # Introduction
 
-XXX
+The {{RFC8366}} voucher artifact provides a proof from a manufacturer's
+authorizing signing authority (MASA) of the intended owner of a device.  This is
+used by an onboarding Pledge device in BRSKI ({{I-D.ietf-anima-bootstrapping-keyinfra}},
+{{I-D.ietf-anima-constrained-voucher}}), and SZTP ({{RFC8572}}).
+
+There are a number of criticisms of the MASA concept.  They include:
+
+* unless a nonceless voucher is used (which often will have no useful expiry
+  date) then the MASA must be reachable to the Registar during the onboarding
+  process.
+
+* the MASA must approve also transfers, impacting the rights of the initial seller to transfer ownership as they see fit.
+
+* if the Registrar has any nonceless vouchers, then it can not change it's public key, nor can it change which certification authority it uses
+
+* it is not possible for a MASA to pin ownership to a Registrar by Certification Authority plus DN 
+
+* the creator of an assembly of parts/components can not become the MASA for the entire assembly of parts
+
+## 
 
 # Privacy Considerations
 
