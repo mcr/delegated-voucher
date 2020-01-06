@@ -45,7 +45,7 @@ in order to support delegation of signing authority.  The initial voucher
 pins a public identity, and that public indentity can then issue additional
 vouchers.  This chain of authorization can support permission-less resale
 of devices, as well as guarding against business failure of the
-BRSKI Manufacturer Authorized Signing Authority (MASA).
+BRSKI {{I-D.ietf-anima-bootstrapping-keyinfra}} Manufacturer Authorized Signing Authority (MASA).
 
 --- middle
 
@@ -58,21 +58,24 @@ used by an onboarding Pledge device in BRSKI ({{I-D.ietf-anima-bootstrapping-key
 
 There are a number of criticisms of the MASA concept.  They include:
 
-* unless a nonceless voucher is used (which often will have no useful expiry
-  date) then the MASA must be reachable to the Registar during the onboarding
-  process.
+* the MASA must be reachable to the Registar during the onboarding process.
 
-* the MASA must approve also transfers, impacting the rights of the initial seller to transfer ownership as they see fit.
+* while the use of a nonceless voucher (see {{RFC8366} section 4) can
+  permit the MASA to be offline, it still requires the public key/certificate
+  of the Registrar to be known at issuing time
+
+* the MASA must also approve all transfers of ownership, impacting the rights of the initial seller to transfer ownership as they see fit.
 
 * if the Registrar has any nonceless vouchers, then it can not change it's public key, nor can it change which certification authority it uses
 
 * it is not possible for a MASA to pin ownership to a Registrar by Certification Authority plus DN
 
-* the creator of an assembly of parts/components can not become the MASA for the entire assembly of parts
+* the creator of an assembly of parts/components can speak for the entire
+  assembly of parts in a transparent way
 
-## Requirements for the delegation
+## Requirements for the delegation {#requirements}
 
-This voucher artifact satisfies the following requirements.
+This voucher artifact satisfies the following requirements:
 
 ### Disconnected or Offline MASA
 
@@ -120,7 +123,7 @@ pledge to new Registrars.
 This delegation can potentially be repeated multiple times to enable second,
 third, or n-th level of resale.
 
-The delegation voucher can be provided to the pledge for storage, to be
+The delegation voucher may be stored by the pledge for storage, to be
 included by the pledge in subsequent bootstrap operations.
 The inclusion of the delegation permits next Registrars with heuristics that
 permit it to find the delegated authorized signing service (DASA).
@@ -137,9 +140,15 @@ Delegated Authorized Signing Authority :
 generate vouchers for one or more pledges to provide bootstrap authority
 separate from the manufacturer.
 
-Delgation Voucher:
+Delegation Voucher:
 : a Delegation Voucher is an {{RFC8366}} format voucher that has additional
 fields to provide detailed the entity to which authority has been delegated.
+
+Intermediate Voucher:
+: a voucher that is not the final voucher linking a pledge to its owner.
+
+End Voucher:
+: a voucher that is the final voucher linking a pledge to its owner.
 
 # Delegated Voucher artifact
 
@@ -158,15 +167,131 @@ definition.
 
 INSERT_FIG_FROM_FILE ietf-delegated-voucher@DATE.yang END
 
-# Constraints on pinning the Delegated Authority {#pinnedmechanism}
+## Bundling of the vouchers
 
-TBD
+The {{I-D.ietf-anima-bootstrapping-keyinfra}} defines a mechanism to return a
+single voucher to the pledge.
 
-# Applying the delegated voucher to solve problems
+This protocol requires a number of additional items to be returned to the
+pledge for evaluation:  the series of Intermediate Vouchers that leads to the
+DASA, and the public keys (often as certificates) of the Registrars on the
+Delegation Path that leads to each Authority.
 
-TBD
+## Delegation of multiple devices
+
+A MASA MAY delegate multiple devices to the same Registrar by putting an
+array of items in the "serial-number" attributes. (XXX-how to describe this
+in the YANG)
 
 # Enhanced Pledge behaviour
+
+The use of a delegated voucher requires changes to how the pledge evaluates
+the voucher that is returned to by the Registrar.
+
+There are no significant changes to the voucher-request that is made.
+The pledge continues to pin the identity of the Registrar to which it is
+connected, providing a nonce to establish freshness.
+
+A pledge which has previously stored a delegation voucher and delegated
+authority, SHOULD include it in its voucher request.
+This will be in the form of a certificate provided by the "previous" owner.
+This allows the Registrar to discover the previous authority for the pledge.
+As the pledge has no idea if it connecting to an entity that it previously
+has connected to, it needs to include this certificate anyway.
+
+The pledge receives a voucher from the Registrar.
+This voucher is called the zero voucher.
+It will observe that the voucher is not signed with its built-in manufacturer
+trust anchor and it can not verify it.
+
+The pledge will examine the voucher to look for the "delegation-voucher"
+and the intermediate-identities attributes within the voucher.
+A certificate from the set of intermediate-identities is expected to validate
+the signature on this zeroth end-entity voucher.
+(XXX- This attribute can be replaced by the CMS certificate chain)
+
+The contained delegation-voucher object is to be interpreted as an
+(intermediate) voucher.
+This first voucher is called the first voucher, or "voucher[1]".
+Generically, for voucher[i], the voucher found in the delegation-voucher is
+called voucher[i+1].
+
+If voucher[i] can be validated by a built-in trust anchor, then the process
+is done.
+If not, then voucher[i] is examined in a recursive process until no there are
+no further embedded vouchers.
+The last voucher[n] is expected to be validated by a built-in manufacturer
+trust anchor.
+
+Once the top (n-th) voucher is found, then the pinned-certificate-authority
+is added to the working set of trust anchors.
+The pinned-certificate-name attribute is used along with the trust anchor to
+validate the certificate chain provided with the n-1th voucher.
+This is repeated (unwinding the recursive processing) until the zeroth
+voucher has been validated.
+
+# Changes to Registrar behaviour
+
+TBD
+
+## Discoverying the most recent Delegated Authority to use
+
+The pledge continues to use its manufacturer issued IDevID when performing
+BRSKI-style onboarding.
+The IDevID contains an extension, the MASA URL (see
+{{I-D.ietf-anima-bootstrapping-keyinfra}} section 2.3.2).
+The IDevID certificate is not expected to be updated when the device is
+resold, nor may it be practical for an intermediate owner to be able
+to replace the IDevID with their own.
+(Some devices may support having an intermediate owner replace the IDevID, in
+which case this section does not apply)
+
+The Registrar needs to be informed that it should not contact a MASA using
+the URL in the IDevID, but rather to contact the previous owner's DASA.
+
+This can be accomplished by local override, as described in
+{{I-D.ietf-anima-bootstrapping-keyinfra}} section 5.4:
+
+    Registrars MAY include a mechanism to override
+    the MASA URL on a manufacturer-by-manufacturer basis, and within that
+    override it is appropriate to provide alternate anchors.  This will
+    typically used by some vendors to establish explicit (or private)
+    trust anchors for validating their MASA that is part of a sales
+    channel integration.
+
+The above override needs to be established on a per-device basis.
+It requires per-device configuration which is very much non-autonomic.
+
+There are two other alternatives:
+
+1. The Manufacturer could be aware of any delegation-vouchers that it has
+   issued for a particular device, and when contacted by the Registrar, it
+   could redirect the Registrar to the DASA.
+
+2. The Pledge could provide a signed statement from the manufacturer
+   providing the Registrar with a pointer to the DASA.
+
+Option 1 requires that the Registrar still contact the MASA, violating most
+of the goals from {{requirements}}.
+
+Option 2 requires a signed artifact, and conveniently, the delegation voucher
+is exactly the document needed.
+The most difficult problem is that the Pledge needs to (a) store one or more
+delegation vouchers in a non-volatile storage that survives factory reset
+operations, (b) attach these documents to the pledge's voucher-request.
+
+The extension to the {{I-D.ietf-anima-bootstrapping-keyinfra}}
+voucher-request described below provides for a contained for these delegation vouchers.
+
+# Applying the delegated voucher to requirements
+
+## applicability one
+TBD
+
+## applicability two
+TBD
+
+# Constraints on pinning the Delegated Authority {#pinnedmechanism}
 
 TBD
 

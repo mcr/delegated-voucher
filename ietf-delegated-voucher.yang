@@ -62,20 +62,38 @@ module ietf-delegated-voucher {
 
       augment "voucher" {
         description "Base the delegated voucher
-                                   upon the regular one";
+                     upon the regular one";
+
         leaf pinned-certificate-authority {
           type binary;
           description
             "An subject-public-key-info for a public key of the
              certificate authority that is to be trusted to issue
-             a voucher to the Registrar";
+             a voucher to the Registrar.
+             This is not used by end-vouchers.";
         }
 
         leaf pinned-certificate-name {
           type binary;
           description
             "A string for the rfc822Name SubjectAltName contents
-             which will be trusted to issue vouchers";
+             which will be trusted to issue vouchers.
+             This is not used by end-vouchers.";
+        }
+
+        leaf delegation-voucher {
+          type binary;
+          description
+            "The intermediate voucher that delegates
+             authority to the entity that signs this voucher
+             is to be included here.";
+        }
+
+        leaf intermediate-identities {
+          type binary;
+          description
+            "A set of identities that will be needed to
+             validate the chain of vouchers. MAY BE REDUNDANT";
         }
 
         leaf delegation-countdown {

@@ -13,4 +13,6 @@ module: ietf-delegated-voucher
        +-- last-renewal-date?               yang:date-and-time
        +-- pinned-certificate-authority?    binary
        +-- pinned-certificate-name?         binary
+       +-- delegation-voucher?              binary
+       +-- intermediate-identities?         binary
        +-- delegation-countdown?            int16
