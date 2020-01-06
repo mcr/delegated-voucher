@@ -1,12 +1,16 @@
 DRAFT:=voucher-delegation
 VERSION:=$(shell ./getver ${DRAFT}.mkd )
-EXAMPLES=
+YANGDATE=2020-01-06
+YANGFILE=yang/ietf-delegated-voucher@${YANGDATE}.yang
+PYANG=pyang
+EXAMPLES=ietf-delegated-voucher-tree.txt
+EXAMPLES+=${YANGFILE}
 
 ${DRAFT}-${VERSION}.txt: ${DRAFT}.txt
 	cp ${DRAFT}.txt ${DRAFT}-${VERSION}.txt
 	: git add ${DRAFT}-${VERSION}.txt ${DRAFT}.txt
 
-%.xml: %.mkd 
+%.xml: %.mkd ${EXAMPLES}
 	kramdown-rfc2629 ${DRAFT}.mkd | ./insert-figures >${DRAFT}.xml
 	: git add ${DRAFT}.xml
 
@@ -16,6 +20,14 @@ ${DRAFT}-${VERSION}.txt: ${DRAFT}.txt
 %.html: %.xml
 	unset DISPLAY; XML_LIBRARY=$(XML_LIBRARY):./src xml2rfc --html -o $@ $?
 
+ietf-delegated-voucher-tree.txt: ${YANGFILE}
+	${PYANG} --path=../../anima/bootstrap/yang --path=../../anima/voucher -f tree --tree-print-groupings --tree-line-length=70 ${YANGFILE} > ietf-delegated-voucher-tree.txt
+
+${YANGFILE}: ietf-delegated-voucher.yang
+	mkdir -p yang
+	sed -e"s/YYYY-MM-DD/${YANGDATE}/" ietf-delegated-voucher.yang > ${YANGFILE}
+
+
 submit: ${DRAFT}.xml
 	curl -S -F "user=mcr+ietf@sandelman.ca" -F "xml=@${DRAFT}.xml" https://datatracker.ietf.org/api/submit
 
@@ -23,6 +35,6 @@ version:
 	echo Version: ${VERSION}
 
 clean:
-	-rm -f ${DRAFT}.xml 
+	-rm -f ${DRAFT}.xml
 
 .PRECIOUS: ${DRAFT}.xml

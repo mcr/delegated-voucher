@@ -24,13 +24,19 @@ author:
   email: mcr+ietf@sandelman.ca
 
 normative:
-  BCP14: RFC8174
+  RFC8174:
   RFC8366:
   I-D.ietf-anima-bootstrapping-keyinfra:
   I-D.ietf-anima-constrained-voucher:
 
 informative:
+  RFC3688:
   RFC8572:
+  RFC8040:
+  RFC5652:
+  RFC6241:
+  RFC8407:
+  RFC6020:
 
 --- abstract
 
@@ -152,10 +158,17 @@ definition.
 
 INSERT_FIG_FROM_FILE ietf-delegated-voucher@DATE.yang END
 
-
 # Constraints on pinning the Delegated Authority {#pinnedmechanism}
 
+TBD
+
 # Applying the delegated voucher to solve problems
+
+TBD
+
+# Enhanced Pledge behaviour
+
+TBD
 
 # Privacy Considerations
 
@@ -163,9 +176,48 @@ YYY
 
 # Security Considerations
 
-ZZZ
+## YANG Module Security Considerations
+
+As described in the Security Considerations section of {{RFC8366}} (section 7.4), the YANG module specified
+in this document defines the schema for data that is subsequently
+encapsulated by a CMS signed-data content type, as described in Section 5 of
+{{RFC5652}}. As such, all of the YANG modeled data is protected from modification.
+
+The use of YANG to define data structures, via the 'yang-data'
+statement, is relatively new and distinct from the traditional use
+of YANG to define an API accessed by network management protocols
+such as NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}.
+For this reason, these guidelines do not follow template described by
+Section 3.7 of {{RFC8407}}.
 
 # IANA Considerations
+
+This document requires the following IANA actions:
+
+## The IETF XML Registry
+
+This document registers a URI in the "IETF XML Registry" {{RFC3688}}.
+IANA is asked to register the following:
+
+
+~~~~
+     URI: urn:ietf:params:xml:ns:yang:ietf-delegated-voucher
+     Registrant Contact: The ANIMA WG of the IETF.
+     XML: N/A, the requested URI is an XML namespace.
+~~~~
+
+## YANG Module Names Registry
+
+This document registers a YANG module in the "YANG Module Names" registry {{RFC6020}}.
+IANA is asked to register the following:
+
+~~~~
+     name:         ietf-delegated-voucher
+     namespace:    urn:ietf:params:xml:ns:yang:ietf-delegated-voucher
+     prefix:       NONE
+     reference:    THIS DOCUMENT
+~~~~
+
 
 # Acknowledgements
 
@@ -173,6 +225,11 @@ Hello.
 
 # Changelog
 
-
 --- back
+
+# Extra references
+
+RFC Editor, please remove this section.
+This section lists references in the YANG. {{RFC8174}}, {{RFC8040}}.
+
 

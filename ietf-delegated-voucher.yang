@@ -35,7 +35,7 @@ module ietf-delegated-voucher {
    The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
    'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'MAY',
    and 'OPTIONAL' in the module text are to be interpreted as
-   described in BCP 14 RFC 2119 and RFC8164.";
+   described in BCP 14 RFC 2119, and RFC8174.";
 
   revision "YYYY-MM-DD" {
     description
@@ -74,15 +74,16 @@ module ietf-delegated-voucher {
         leaf pinned-certificate-name {
           type binary;
           description
-            "A string for the rfc822Name SubjectAltName contents which
-             will be trusted to issue vouchers";
+            "A string for the rfc822Name SubjectAltName contents
+             which will be trusted to issue vouchers";
         }
 
         leaf delegation-countdown {
-          type integer;
+          type int16;
           description
-          "Number of delegations still available. If zero or omitted, then
-           this is a terminal voucher and may not be further delegated";
+          "Number of delegations still available. If zero
+           or omitted, then this is a terminal voucher and
+           may not be further delegated";
         }
       }
     }
