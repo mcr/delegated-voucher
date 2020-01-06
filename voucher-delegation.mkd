@@ -11,7 +11,6 @@ wg: anima Working Group
 kw: Internet-Draft
 cat: std
 
-coding: us-ascii
 pi:    # can use array (if all yes) or hash here
   toc: yes
   sortrefs:   # defaults to yes
@@ -31,7 +30,7 @@ normative:
   I-D.ietf-anima-constrained-voucher:
 
 informative:
-
+  RFC8572:
 
 --- abstract
 
@@ -61,11 +60,102 @@ There are a number of criticisms of the MASA concept.  They include:
 
 * if the Registrar has any nonceless vouchers, then it can not change it's public key, nor can it change which certification authority it uses
 
-* it is not possible for a MASA to pin ownership to a Registrar by Certification Authority plus DN 
+* it is not possible for a MASA to pin ownership to a Registrar by Certification Authority plus DN
 
 * the creator of an assembly of parts/components can not become the MASA for the entire assembly of parts
 
-## 
+## Requirements for the delegation
+
+This voucher artifact satisfies the following requirements.
+
+### Disconnected or Offline MASA
+
+A Registrar wishes to onboard devices while not being connected to the
+Internet.
+
+### Resale of devices
+
+An owner of a device wishes to resale devices which have previously been
+onboarded to a third party without specific authorization from the
+manufacturer.
+
+### Crypto-agility for Registrar
+
+The owner/manager of a registrar wishes to be able to replace its domain
+registration key.
+Replacing the registration key would invalidate any previously acquired
+(nonceless) vouchers.
+Any devices which have not been onboarded, or which need to be factory reset,
+would not trust a replacement key.
+
+### Transparent Assemblers/Value-Added-Resellers
+
+An assembly may consist of a number of parts which are onboarded to a local
+controller during the manufacturing process.
+Subsequent to this, the entire assembly will be shipped to a customer who
+wishes to onboard all the components.
+The sub-components of the assembly needs to communicate with other
+sub-components, and so all the parts need to transparently onboarded.
+(This is contrasted with an assembly where the controller acts as a security
+gateway. Such a gateway might be a single point of failure)
+
+Assemblies may nest quite deeply.
+
+## Overview of proposed solution
+
+The MASA will issue a voucher that delegates it's signing authority for one
+or more devices to a specific Registrar.
+This is called a "delegation voucher".
+
+This Registrar can then operate as an authorized signing authority for the
+manufacturer, and can subsequently issue additional vouchers binding the
+pledge to new Registrars.
+
+This delegation can potentially be repeated multiple times to enable second,
+third, or n-th level of resale.
+
+The delegation voucher can be provided to the pledge for storage, to be
+included by the pledge in subsequent bootstrap operations.
+The inclusion of the delegation permits next Registrars with heuristics that
+permit it to find the delegated authorized signing service (DASA).
+
+The delegation voucher pins the identity of the delegated authority using a
+variety of different mechanisms which are covered in {{pinnedmechanism}}.
+
+# Terminology
+
+{::boilerplate bcp14}
+
+Delegated Authorized Signing Authority :
+: the Delegated Authorized Signing Authority (DASA) is a service that can
+generate vouchers for one or more pledges to provide bootstrap authority
+separate from the manufacturer.
+
+Delgation Voucher:
+: a Delegation Voucher is an {{RFC8366}} format voucher that has additional
+fields to provide detailed the entity to which authority has been delegated.
+
+# Delegated Voucher artifact
+
+The following tree diagram shows the extensions to the {{RFC8366}} voucher.
+
+There are a few new fields: pinned-delegation-certificate-authority,
+pinned-delegation-name, delegation-count.  In addition, the serial-number
+field is no longer a plain leaf, but can also be an array.
+
+INSERT_FIG_FROM_FILE ietf-delegated-voucher-tree.txt END
+
+## YANG module
+
+This module uses the grouping that was created in {{RFC8366}} to extend the
+definition.
+
+INSERT_FIG_FROM_FILE ietf-delegated-voucher@DATE.yang END
+
+
+# Constraints on pinning the Delegated Authority {#pinnedmechanism}
+
+# Applying the delegated voucher to solve problems
 
 # Privacy Considerations
 
