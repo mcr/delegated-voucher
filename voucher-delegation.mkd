@@ -161,8 +161,8 @@ The following tree diagram shows the extensions to the {{RFC8366}} voucher.
 
 There are a few new fields:
 
-delegation-enable-flag: 
-: A global enable flag to the pledge that it can be delegated (true) or not (false). With default, this flag is false, which is consistent with the voucher artifact in RFC8366. 
+delegation-enable-flag:
+: A global enable flag to the pledge that it can be delegated (true) or not (false). With default, this flag is false, which is consistent with the voucher artifact in RFC8366.
 
 pinned-delegation-cert-authority:
 : An subject-public-key-info for a public key of the new DASA
@@ -255,7 +255,7 @@ voucher has been validated.
 
 # Changes to Registrar Behavior
 
-The Registrar is the component that authenticates the pledge, makes authorization decisions, and distributes vouchers. If the vouchers is delegated, then the registrar need to co-ordinate MASA and DASA. 
+The Registrar is the component that authenticates the pledge, makes authorization decisions, and distributes vouchers. If the vouchers is delegated, then the registrar need to co-ordinate MASA and DASA.
 
 ## Discovering The Most Recent Delegated Authority to Use
 
@@ -313,17 +313,17 @@ voucher-request described below provides for a contained for these Delegation Vo
 
 This case has many scenarioes in application.
 
-For example, due to the willing of some devices' owner, or due to the creditor or bankruptcy, their devices need to resale to some third party, but they have previously been onboarded without specific authorization from the manufacturer. Aother example is for some owner, which PKI system is on the cloud initially, but later, they wish to change its CA, and it is effectively a "resale". Then, the registrar of third party must override MASA URL, contacting this owner's registrar for voucher. Here, the owner's registrar is delegation authority. 
+For example, due to the willing of some devices' owner, or due to the creditor or bankruptcy, their devices need to resale to some third party, but they have previously been onboarded without specific authorization from the manufacturer. Aother example is for some owner, which PKI system is on the cloud initially, but later, they wish to change its CA, and it is effectively a "resale". Then, the registrar of third party must override MASA URL, contacting this owner's registrar for voucher. Here, the owner's registrar is delegation authority.
 
 Furthurly, the pledges may be resaled many times, and when onboarding, they will receive all vouchers in order with the sale chain, firstly masa vouchour, then 1st intermidate, 2nd intermidate, till to the final dealer. In this case, the pledge's authorization form a signed voucher chain.
 
 In addition, for a pledge, resale can't be forever, so the delegation voucher need specify the limit number of resales with "delegation-countdown".
 
-The following illustrates a delegation voucher for a pledge: 
+The following illustrates a delegation voucher for a pledge:
    {
      "ietf-delegated-voucher:voucher": {
        "created-on": "2020-07-14T06:28:31Z",
-       “expire-on”: “2022-07-31T01:61:80Z”, 
+       “expire-on”: “2022-07-31T01:61:80Z”,
        "assertion": "logged",
        "serial-number": "JADA123456789",
        "delegation-enable-flag": true,
