@@ -1,7 +1,6 @@
----
 title: Delegated Authority for Bootstrap Voucher Artifacts
 abbrev: delegated-voucher
-docname: draft-richardson-anima-voucher-delegation-00
+docname: draft-richardson-anima-voucher-delegation-01
 
 # stand_alone: true
 
@@ -22,6 +21,10 @@ author:
   name: Michael Richardson
   org: Sandelman Software Works
   email: mcr+ietf@sandelman.ca
+- ins: L. Xia
+  name: Liang Xia (Frank)
+  org: Huawei
+  email: frank.xialiang@huawei.com
 
 normative:
   RFC8174:
@@ -62,29 +65,30 @@ There are a number of criticisms of the MASA concept.  They include:
 
 * while the use of a nonceless voucher (see {{RFC8366} section 4) can
   permit the MASA to be offline, it still requires the public key/certificate
-  of the Registrar to be known at issuing time
+  of the Registrar to be known at issuing time. The device owner is always 
+  strongly dependent on the MASA service. 
 
-* the MASA must also approve all transfers of ownership, impacting the rights of the initial seller to transfer ownership as they see fit.
+* the MASA must approve all transfers of ownership, impacting the rights of the supply chain distributors to transfer ownership as they see fit.
 
-* if the Registrar has any nonceless vouchers, then it can not change it's public key, nor can it change which certification authority it uses
+* if the Registrar has any nonceless vouchers, then it can not change it's public key, nor can it change which certification authority it uses.
 
-* it is not possible for a MASA to pin ownership to a Registrar by Certification Authority plus DN
+* it is not possible for a MASA to pin ownership to a Registrar by Certification Authority plus DN.
 
 * the creator of an assembly of parts/components can speak for the entire
-  assembly of parts in a transparent way
+  assembly of parts in a transparent way.
 
-## Requirements for the delegation {#requirements}
+## Requirements for the Delegation {#requirements}
 
 This voucher artifact satisfies the following requirements:
 
-### Disconnected or Offline MASA
+### Device Onboarding with Disconnected or Offline MASA
 
-A Registrar wishes to onboard devices while not being connected to the
-Internet.
+A Registrar wishes to onboard devices while it is not being connected to the
+Internet and MASA. 
 
-### Resale of devices
+### Resale of Devices
 
-An owner of a device wishes to resale devices which have previously been
+An owner of a device wishes to resale it which has previously been
 onboarded to a third party without specific authorization from the
 manufacturer.
 
@@ -110,7 +114,7 @@ gateway. Such a gateway might be a single point of failure)
 
 Assemblies may nest quite deeply.
 
-## Overview of proposed solution
+## Overview of Proposed Solution
 
 The MASA will issue a voucher that delegates it's signing authority for one
 or more devices to a specific Registrar.
@@ -125,8 +129,8 @@ third, or n-th level of resale.
 
 The delegation voucher may be stored by the pledge for storage, to be
 included by the pledge in subsequent bootstrap operations.
-The inclusion of the delegation permits next Registrars with heuristics that
-permit it to find the delegated authorized signing service (DASA).
+The inclusion of the delegation voucher permits next Registrar with heuristics that
+permit it to find the delegated authorized signing authority (DASA).
 
 The delegation voucher pins the identity of the delegated authority using a
 variety of different mechanisms which are covered in {{pinnedmechanism}}.
@@ -137,12 +141,12 @@ variety of different mechanisms which are covered in {{pinnedmechanism}}.
 
 Delegated Authorized Signing Authority :
 : the Delegated Authorized Signing Authority (DASA) is a service that can
-generate vouchers for one or more pledges to provide bootstrap authority
-separate from the manufacturer.
+generate vouchers for one or more pledges to provide bootstrap authority,
+which is separated and delegated from the manufacturer.
 
 Delegation Voucher:
 : a Delegation Voucher is an {{RFC8366}} format voucher that has additional
-fields to provide detailed the entity to which authority has been delegated.
+fields to provide details of the entity to which authority has been delegated.
 
 Intermediate Voucher:
 : a voucher that is not the final voucher linking a pledge to its owner.
@@ -150,24 +154,30 @@ Intermediate Voucher:
 End Voucher:
 : a voucher that is the final voucher linking a pledge to its owner.
 
-# Delegated Voucher artifact
+# Delegation Voucher Artifact
 
 The following tree diagram shows the extensions to the {{RFC8366}} voucher.
 
-There are a few new fields: pinned-delegation-certificate-authority,
-pinned-delegation-name, delegation-count.  In addition, the serial-number
-field is no longer a plain leaf, but can also be an array.
+There are a few new fields: 
+
+- pinned-delegation-certificate-authority: An subject-public-key-info for a public key of the new DASA;
+- pinned-delegation-name: A string for the rfc822Name SubjectAltName contents of the new DASA; (XXX- is it enough, should other DNs be considered?)
+- delegation-voucher: One or a series of Intermediate Vouchers that delegate authority to the DASA. For the latter case, the series of Intermediate Vouchers constitute a nested structure, and the most inner voucher is from the MASA, which is called terminal voucher here;
+- intermediate-identities: A set of voucher identities being consistent with the series of Intermediate Vouchers;
+- delegation-countdown: Number of delegations still available. If zero or omitted, then this is a terminal voucher and may not be further delegated.
+
+In addition, the serial-number field is no longer a plain leaf, but can also be an array (See {{delegationmultidev}}).    
 
 INSERT_FIG_FROM_FILE ietf-delegated-voucher-tree.txt END
 
-## YANG module
+## YANG Module
 
 This module uses the grouping that was created in {{RFC8366}} to extend the
 definition.
 
 INSERT_FIG_FROM_FILE ietf-delegated-voucher@DATE.yang END
 
-## Bundling of the vouchers
+## Bundling of The Vouchers
 
 The {{I-D.ietf-anima-bootstrapping-keyinfra}} defines a mechanism to return a
 single voucher to the pledge.
@@ -177,23 +187,23 @@ pledge for evaluation:  the series of Intermediate Vouchers that leads to the
 DASA, and the public keys (often as certificates) of the Registrars on the
 Delegation Path that leads to each Authority.
 
-## Delegation of multiple devices
+## Delegation of Multiple Devices {#delegationmultidev}
 
 A MASA MAY delegate multiple devices to the same Registrar by putting an
 array of items in the "serial-number" attributes. (XXX-how to describe this
-in the YANG)
+in the YANG, and the detailed mechanism, are TBD)
 
-# Enhanced Pledge behaviour
+# Enhanced Pledge Behavior
 
-The use of a delegated voucher requires changes to how the pledge evaluates
+The use of a Delegation Voucher requires changes to how the pledge evaluates
 the voucher that is returned to by the Registrar.
 
 There are no significant changes to the voucher-request that is made.
 The pledge continues to pin the identity of the Registrar to which it is
 connected, providing a nonce to establish freshness.
 
-A pledge which has previously stored a delegation voucher and delegated
-authority, SHOULD include it in its voucher request.
+A pledge which has previously stored a Delegation Voucher and DASA
+, SHOULD include it in its voucher request.
 This will be in the form of a certificate provided by the "previous" owner.
 This allows the Registrar to discover the previous authority for the pledge.
 As the pledge has no idea if it connecting to an entity that it previously
@@ -205,36 +215,36 @@ It will observe that the voucher is not signed with its built-in manufacturer
 trust anchor and it can not verify it.
 
 The pledge will examine the voucher to look for the "delegation-voucher"
-and the intermediate-identities attributes within the voucher.
+and the "intermediate-identities" attributes within the voucher.
 A certificate from the set of intermediate-identities is expected to validate
 the signature on this zeroth end-entity voucher.
 (XXX- This attribute can be replaced by the CMS certificate chain)
 
 The contained delegation-voucher object is to be interpreted as an
-(intermediate) voucher.
+(Intermediate) Voucher.
 This first voucher is called the first voucher, or "voucher[1]".
 Generically, for voucher[i], the voucher found in the delegation-voucher is
 called voucher[i+1].
 
 If voucher[i] can be validated by a built-in trust anchor, then the process
 is done.
-If not, then voucher[i] is examined in a recursive process until no there are
+If not, then voucher[i] is examined in a recursive process until there are
 no further embedded vouchers.
 The last voucher[n] is expected to be validated by a built-in manufacturer
 trust anchor.
 
 Once the top (n-th) voucher is found, then the pinned-certificate-authority
 is added to the working set of trust anchors.
-The pinned-certificate-name attribute is used along with the trust anchor to
-validate the certificate chain provided with the n-1th voucher.
+The "pinned-certificate-name" attribute is used along with the trust anchor to
+validate the certificate chain provided with the (n-1)th voucher.
 This is repeated (unwinding the recursive processing) until the zeroth
 voucher has been validated.
 
-# Changes to Registrar behaviour
+# Changes to Registrar Behavior
 
 TBD
 
-## Discoverying the most recent Delegated Authority to use
+## Discovering The Most Recent Delegated Authority to Use
 
 The pledge continues to use its manufacturer issued IDevID when performing
 BRSKI-style onboarding.
@@ -264,9 +274,10 @@ It requires per-device configuration which is very much non-autonomic.
 
 There are two other alternatives:
 
-1. The Manufacturer could be aware of any delegation-vouchers that it has
+1. The Manufacturer could be aware of any Delegation Vouchers that it has
    issued for a particular device, and when contacted by the Registrar, it
-   could redirect the Registrar to the DASA.
+   could redirect the Registrar to its DASA. And the DASA may redirect the 
+   Registrar to its delegated DASA, this process is recursive to the final DASA.
 
 2. The Pledge could provide a signed statement from the manufacturer
    providing the Registrar with a pointer to the DASA.
@@ -274,24 +285,26 @@ There are two other alternatives:
 Option 1 requires that the Registrar still contact the MASA, violating most
 of the goals from {{requirements}}.
 
-Option 2 requires a signed artifact, and conveniently, the delegation voucher
-is exactly the document needed.
+Option 2 requires a signed artifact, and conveniently, the Delegation Voucher
+is exactly the item needed.
 The most difficult problem is that the Pledge needs to (a) store one or more
-delegation vouchers in a non-volatile storage that survives factory reset
-operations, (b) attach these documents to the pledge's voucher-request.
+Delegation Vouchers in a non-volatile storage that survives factory reset
+operations, (b) attach these items to the pledge's voucher-request.
 
 The extension to the {{I-D.ietf-anima-bootstrapping-keyinfra}}
-voucher-request described below provides for a contained for these delegation vouchers.
+voucher-request described below provides for a contained for these Delegation Vouchers.
 
-# Applying the delegated voucher to requirements
+# Applying The Delegation Voucher to Requirements
 
 ## applicability one
+
 TBD
 
 ## applicability two
+
 TBD
 
-# Constraints on pinning the Delegated Authority {#pinnedmechanism}
+# Constraints on Pinning The Delegated Authority {#pinnedmechanism}
 
 TBD
 
@@ -356,5 +369,4 @@ Hello.
 
 RFC Editor, please remove this section.
 This section lists references in the YANG. {{RFC8174}}, {{RFC8040}}.
-
 
