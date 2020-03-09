@@ -29,7 +29,7 @@ ${YANGFILE}: ietf-delegated-voucher.yang
 
 
 submit: ${DRAFT}.xml
-	curl -S -F "user=mcr+ietf@sandelman.ca" -F "xml=@${DRAFT}.xml" https://datatracker.ietf.org/api/submit
+	curl -S -F "user=mcr+ietf@sandelman.ca" -F "xml=@${DRAFT}.xml;type=application/xml" https://datatracker.ietf.org/api/submit
 
 version:
 	echo Version: ${VERSION}
