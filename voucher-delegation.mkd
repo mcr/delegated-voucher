@@ -65,8 +65,8 @@ There are a number of criticisms of the MASA concept.  They include:
 
 * while the use of a nonceless voucher (see {{RFC8366} section 4) can
   permit the MASA to be offline, it still requires the public key/certificate
-  of the Registrar to be known at issuing time. The device owner is always 
-  strongly dependent on the MASA service. 
+  of the Registrar to be known at issuing time. The device owner is always
+  strongly dependent on the MASA service.
 
 * the MASA must approve all transfers of ownership, impacting the rights of the supply chain distributors to transfer ownership as they see fit.
 
@@ -84,7 +84,7 @@ This voucher artifact satisfies the following requirements:
 ### Device Onboarding with Disconnected or Offline MASA
 
 A Registrar wishes to onboard devices while it is not being connected to the
-Internet and MASA. 
+Internet and MASA.
 
 ### Resale of Devices
 
@@ -158,15 +158,24 @@ End Voucher:
 
 The following tree diagram shows the extensions to the {{RFC8366}} voucher.
 
-There are a few new fields: 
+There are a few new fields:
 
-- pinned-delegation-certificate-authority: An subject-public-key-info for a public key of the new DASA;
-- pinned-delegation-name: A string for the rfc822Name SubjectAltName contents of the new DASA; (XXX- is it enough, should other DNs be considered?)
-- delegation-voucher: One or a series of Intermediate Vouchers that delegate authority to the DASA. For the latter case, the series of Intermediate Vouchers constitute a nested structure, and the most inner voucher is from the MASA, which is called terminal voucher here;
-- intermediate-identities: A set of voucher identities being consistent with the series of Intermediate Vouchers;
-- delegation-countdown: Number of delegations still available. If zero or omitted, then this is a terminal voucher and may not be further delegated.
+pinned-delegation-certificate-authority:
+: An subject-public-key-info for a public key of the new DASA
 
-In addition, the serial-number field is no longer a plain leaf, but can also be an array (See {{delegationmultidev}}).    
+pinned-delegation-name:
+: A string for the rfc822Name SubjectAltName contents of the new DASA; (XXX- is it enough, should other DNs be considered?)
+
+delegation-voucher:
+: One or a series of Intermediate Vouchers that delegate authority to the DASA. For the latter case, the series of Intermediate Vouchers constitute a nested structure, and the most inner voucher is from the MASA, which is called terminal voucher here
+
+intermediate-identities:
+: A set of voucher identities being consistent with the series of Intermediate Vouchers
+
+delegation-countdown:
+: Number of delegations still available. If zero or omitted, then this is a terminal voucher and may not be further delegated.
+
+In addition, the serial-number field is no longer a plain leaf, but can also be an array (See {{delegationmultidev}}).
 
 INSERT_FIG_FROM_FILE ietf-delegated-voucher-tree.txt END
 
@@ -276,7 +285,7 @@ There are two other alternatives:
 
 1. The Manufacturer could be aware of any Delegation Vouchers that it has
    issued for a particular device, and when contacted by the Registrar, it
-   could redirect the Registrar to its DASA. And the DASA may redirect the 
+   could redirect the Registrar to its DASA. And the DASA may redirect the
    Registrar to its delegated DASA, this process is recursive to the final DASA.
 
 2. The Pledge could provide a signed statement from the manufacturer
