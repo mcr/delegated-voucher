@@ -232,15 +232,15 @@ the signature on this zeroth end-entity voucher.
 
 The contained delegation-voucher object is to be interpreted as an
 (Intermediate) Voucher.
-This first voucher is called the first voucher, or "voucher[1]".
-Generically, for voucher[i], the voucher found in the delegation-voucher is
-called voucher[i+1].
+This first voucher is called the first voucher, or "voucher\[1\]".
+Generically, for voucher\[i\], the voucher found in the delegation-voucher is
+called voucher\[i+1\].
 
-If voucher[i] can be validated by a built-in trust anchor, then the process
+If voucher\[i\] can be validated by a built-in trust anchor, then the process
 is done.
-If not, then voucher[i] is examined in a recursive process until there are
+If not, then voucher\[i\] is examined in a recursive process until there are
 no further embedded vouchers.
-The last voucher[n] is expected to be validated by a built-in manufacturer
+The last voucher\[n\] is expected to be validated by a built-in manufacturer
 trust anchor.
 
 Once the top (n-th) voucher is found, then the pinned-certificate-authority
