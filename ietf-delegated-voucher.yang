@@ -49,6 +49,14 @@ module ietf-delegated-voucher {
     uses voucher-delegated-grouping;
   }
 
+  leaf delegated-enable-flag {
+    type boolean;
+    description
+     "A global enable flag to the pledge that it can be delegated 
+     (true) or not (false). With default, this flag is false, 
+     which is consistent with the voucher artifact in RFC8366. ";
+}
+
   // Grouping defined for future usage
   grouping voucher-delegated-grouping {
     description
@@ -64,20 +72,20 @@ module ietf-delegated-voucher {
         description "Base the delegated voucher
                      upon the regular one";
 
-        leaf pinned-certificate-authority {
+        leaf pinned-delegation-cert-authority {
           type binary;
           description
             "An subject-public-key-info for a public key of the
              certificate authority that is to be trusted to issue
-             a voucher to the Registrar.
+             a delegation voucher to the Registrar.
              This is not used by end-vouchers.";
         }
 
-        leaf pinned-certificate-name {
+        leaf pinned-cdelegation-cert-name {
           type binary;
           description
             "A string for the rfc822Name SubjectAltName contents
-             which will be trusted to issue vouchers.
+             which will be trusted to issue delegation vouchers.
              This is not used by end-vouchers.";
         }
 
