@@ -24,8 +24,8 @@ author:
   email: mcr+ietf@sandelman.ca
 - ins: Jie Yang
   name: Jie Yang
-  org: Huawei 
-  email: jay,yang@huawei.com
+  org: Huawei Technologies Co., Ltd.
+  email: jay.yang@huawei.com
 
 normative:
   RFC8174:
