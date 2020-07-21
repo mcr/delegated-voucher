@@ -1,7 +1,7 @@
 ---
 title: Delegated Authority for Bootstrap Voucher Artifacts
 abbrev: delegated-voucher
-docname: draft-richardson-anima-voucher-delegation-01
+docname: draft-richardson-anima-voucher-delegation-02
 
 # stand_alone: true
 
@@ -22,10 +22,10 @@ author:
   name: Michael Richardson
   org: Sandelman Software Works
   email: mcr+ietf@sandelman.ca
-- ins: L. Xia
-  name: Liang Xia (Frank)
-  org: Huawei
-  email: frank.xialiang@huawei.com
+- ins: Jie Yang
+  name: Jie Yang
+  org: Huawei 
+  email: jay,yang@huawei.com
 
 normative:
   RFC8174:
@@ -161,10 +161,13 @@ The following tree diagram shows the extensions to the {{RFC8366}} voucher.
 
 There are a few new fields:
 
-pinned-delegation-certificate-authority:
+delegation-enable-flag: 
+: A global enable flag to the pledge that it can be delegated (true) or not (false). With default, this flag is false, which is consistent with the voucher artifact in RFC8366. 
+
+pinned-delegation-cert-authority:
 : An subject-public-key-info for a public key of the new DASA
 
-pinned-delegation-name:
+pinned-delegation-cert-name:
 : A string for the rfc822Name SubjectAltName contents of the new DASA; (XXX- is it enough, should other DNs be considered?)
 
 delegation-voucher:
@@ -252,7 +255,7 @@ voucher has been validated.
 
 # Changes to Registrar Behavior
 
-TBD
+The Registrar is the component that authenticates the pledge, makes authorization decisions, and distributes vouchers. If the vouchers is delegated, then the registrar need to co-ordinate MASA and DASA. 
 
 ## Discovering The Most Recent Delegated Authority to Use
 
@@ -306,13 +309,37 @@ voucher-request described below provides for a contained for these Delegation Vo
 
 # Applying The Delegation Voucher to Requirements
 
-## applicability one
+## Case 1: Resale
 
-TBD
+This case has many scenarioes in application.
 
-## applicability two
+For example, due to the willing of some devices' owner, or due to the creditor or bankruptcy, their devices need to resale to some third party, but they have previously been onboarded without specific authorization from the manufacturer. Aother example is for some owner, which PKI system is on the cloud initially, but later, they wish to change its CA, and it is effectively a "resale". Then, the registrar of third party must override MASA URL, contacting this owner's registrar for voucher. Here, the owner's registrar is delegation authority. 
 
-TBD
+Furthurly, the pledges may be resaled many times, and when onboarding, they will receive all vouchers in order with the sale chain, firstly masa vouchour, then 1st intermidate, 2nd intermidate, till to the final dealer. In this case, the pledge's authorization form a signed voucher chain.
+
+In addition, for a pledge, resale can't be forever, so the delegation voucher need specify the limit number of resales with "delegation-countdown".
+
+The following illustrates a delegation voucher for a pledge: 
+   {
+     "ietf-delegated-voucher:voucher": {
+       "created-on": "2020-07-14T06:28:31Z",
+       “expire-on”: “2022-07-31T01:61:80Z”, 
+       "assertion": "logged",
+       "serial-number": "JADA123456789",
+       "delegation-enable-flag": true,
+       "pinned-delegation-cert-authority": "base64encodedvalue",
+       "pinned-delegation-cert-name": "base64encodedvalue",
+       "delegation-voucher": "base64encodedvalue",
+       "intermediate-identities": "intermediateId1",
+       "delegation-countdown": 1,
+     }
+   }
+
+## Case 2: Assembly
+
+In some application, many pledges which come from multiple componet manufactures, need to be assemblied together in the first sale, In this time, the owner is assembly controller, so the pledge's voucher need to include these delegation options.
+
+In addition, there are also transparent assembly, for exmale rail wagon scenario. Firstly, the assembly onboards normally to get all pledges' vouchers, then this assembly acts as intermidate registrar, who "sell" these pledges to every rail wagon registrar.
 
 # Constraints on Pinning The Delegated Authority {#pinnedmechanism}
 
