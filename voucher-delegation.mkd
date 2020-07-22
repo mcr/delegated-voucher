@@ -22,7 +22,7 @@ author:
   name: Michael Richardson
   org: Sandelman Software Works
   email: mcr+ietf@sandelman.ca
-- ins: Jie Yang
+- ins: J. Yang
   name: Jie Yang
   org: Huawei Technologies Co., Ltd.
   email: jay.yang@huawei.com
