@@ -1,19 +1,19 @@
 module: ietf-delegated-voucher
+  +--rw delegation-enable-flag?   boolean
 
   grouping voucher-delegated-grouping
     +-- voucher
-       +-- created-on                        yang:date-and-time
-       +-- expires-on?                       yang:date-and-time
-       +-- assertion                         enumeration
-       +-- serial-number                     string
-       +-- idevid-issuer?                    binary
-       +-- pinned-domain-cert?               binary
-       +-- domain-cert-revocation-checks?    boolean
-       +-- nonce?                            binary
-       +-- last-renewal-date?                yang:date-and-time
-       +-- delegation-enbale-flag?           boolean
-       +-- pinned-delegation-cert-authority? binary
-       +-- pinned-delegation-cert-name?      binary
-       +-- delegation-voucher?               binary
-       +-- intermediate-identities?          binary
-       +-- delegation-countdown?             int16
+       +-- created-on                          yang:date-and-time
+       +-- expires-on?                         yang:date-and-time
+       +-- assertion                           enumeration
+       +-- serial-number                       string
+       +-- idevid-issuer?                      binary
+       +-- pinned-domain-cert?                 binary
+       +-- domain-cert-revocation-checks?      boolean
+       +-- nonce?                              binary
+       +-- last-renewal-date?                  yang:date-and-time
+       +-- pinned-delegation-cert-authority?   binary
+       +-- pinned-cdelegation-cert-name?       binary
+       +-- delegation-voucher?                 binary
+       +-- intermediate-identities?            binary
+       +-- delegation-countdown?               int16
