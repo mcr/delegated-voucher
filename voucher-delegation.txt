@@ -4,13 +4,13 @@
 
 anima Working Group                                        M. Richardson
 Internet-Draft                                  Sandelman Software Works
-Intended status: Standards Track                                  L. Xia
-Expires: September 10, 2020                                       Huawei
-                                                          March 09, 2020
+Intended status: Standards Track                                 J. Yang
+Expires: January 24, 2021                  Huawei Technologies Co., Ltd.
+                                                           July 23, 2020
 
 
           Delegated Authority for Bootstrap Voucher Artifacts
-              draft-richardson-anima-voucher-delegation-01
+              draft-richardson-anima-voucher-delegation-02
 
 Abstract
 
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 10, 2020.
+   This Internet-Draft will expire on January 24, 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Richardson & Xia       Expires September 10, 2020               [Page 1]
+Richardson & Yang       Expires January 24, 2021                [Page 1]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
    include Simplified BSD License text as described in Section 4.e of
@@ -74,28 +74,28 @@ Table of Contents
    2.  Terminology . . . . . . . . . . . . . . . . . . . . . . . . .   4
    3.  Delegation Voucher Artifact . . . . . . . . . . . . . . . . .   5
      3.1.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   6
-     3.2.  Bundling of The Vouchers  . . . . . . . . . . . . . . . .   8
+     3.2.  Bundling of The Vouchers  . . . . . . . . . . . . . . . .   9
      3.3.  Delegation of Multiple Devices  . . . . . . . . . . . . .   9
    4.  Enhanced Pledge Behavior  . . . . . . . . . . . . . . . . . .   9
    5.  Changes to Registrar Behavior . . . . . . . . . . . . . . . .  10
      5.1.  Discovering The Most Recent Delegated Authority to Use  .  10
    6.  Applying The Delegation Voucher to Requirements . . . . . . .  11
-     6.1.  applicability one . . . . . . . . . . . . . . . . . . . .  11
-     6.2.  applicability two . . . . . . . . . . . . . . . . . . . .  11
-   7.  Constraints on Pinning The Delegated Authority  . . . . . . .  11
-   8.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  11
-   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
-     9.1.  YANG Module Security Considerations . . . . . . . . . . .  11
-   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
-     10.1.  The IETF XML Registry  . . . . . . . . . . . . . . . . .  12
-     10.2.  YANG Module Names Registry . . . . . . . . . . . . . . .  12
-   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  12
-   12. Changelog . . . . . . . . . . . . . . . . . . . . . . . . . .  12
-   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
-     13.1.  Normative References . . . . . . . . . . . . . . . . . .  12
-     13.2.  Informative References . . . . . . . . . . . . . . . . .  13
-   Appendix A.  Extra references . . . . . . . . . . . . . . . . . .  14
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  14
+     6.1.  Case 1: Resale  . . . . . . . . . . . . . . . . . . . . .  11
+     6.2.  Case 2: Assembly  . . . . . . . . . . . . . . . . . . . .  12
+   7.  Constraints on Pinning The Delegated Authority  . . . . . . .  12
+   8.  Privacy Considerations  . . . . . . . . . . . . . . . . . . .  12
+   9.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
+     9.1.  YANG Module Security Considerations . . . . . . . . . . .  12
+   10. IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
+     10.1.  The IETF XML Registry  . . . . . . . . . . . . . . . . .  13
+     10.2.  YANG Module Names Registry . . . . . . . . . . . . . . .  13
+   11. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  13
+   12. Changelog . . . . . . . . . . . . . . . . . . . . . . . . . .  13
+   13. References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
+     13.1.  Normative References . . . . . . . . . . . . . . . . . .  13
+     13.2.  Informative References . . . . . . . . . . . . . . . . .  14
+   Appendix A.  Extra references . . . . . . . . . . . . . . . . . .  15
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  15
 
 1.  Introduction
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Richardson & Xia       Expires September 10, 2020               [Page 2]
+Richardson & Yang       Expires January 24, 2021                [Page 2]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
    o  the MASA must be reachable to the Registar during the onboarding
@@ -165,9 +165,9 @@ Internet-Draft              delegated-voucher                 March 2020
 
 
 
-Richardson & Xia       Expires September 10, 2020               [Page 3]
+Richardson & Yang       Expires January 24, 2021                [Page 3]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
 1.1.4.  Transparent Assemblers/Value-Added-Resellers
@@ -221,9 +221,9 @@ Internet-Draft              delegated-voucher                 March 2020
 
 
 
-Richardson & Xia       Expires September 10, 2020               [Page 4]
+Richardson & Yang       Expires January 24, 2021                [Page 4]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
    Delegation Voucher:  a Delegation Voucher is an [RFC8366] format
@@ -243,12 +243,17 @@ Internet-Draft              delegated-voucher                 March 2020
 
    There are a few new fields:
 
-   pinned-delegation-certificate-authority:  An subject-public-key-info
-      for a public key of the new DASA
+   delegation-enable-flag:  A global enable flag to the pledge that it
+      can be delegated (true) or not (false).  With default, this flag
+      is false, which is consistent with the voucher artifact in
+      RFC8366.
 
-   pinned-delegation-name:  A string for the rfc822Name SubjectAltName
-      contents of the new DASA; (XXX- is it enough, should other DNs be
-      considered?)
+   pinned-delegation-cert-authority:  An subject-public-key-info for a
+      public key of the new DASA
+
+   pinned-delegation-cert-name:  A string for the rfc822Name
+      SubjectAltName contents of the new DASA; (XXX- is it enough,
+      should other DNs be considered?)
 
    delegation-voucher:  One or a series of Intermediate Vouchers that
       delegate authority to the DASA.  For the latter case, the series
@@ -272,34 +277,30 @@ Internet-Draft              delegated-voucher                 March 2020
 
 
 
-
-
-
-
-
-Richardson & Xia       Expires September 10, 2020               [Page 5]
+Richardson & Yang       Expires January 24, 2021                [Page 5]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
    module: ietf-delegated-voucher
+     +--rw delegation-enable-flag?   boolean
 
      grouping voucher-delegated-grouping
-       +---- voucher
-          +---- created-on                       yang:date-and-time
-          +---- expires-on?                      yang:date-and-time
-          +---- assertion                        enumeration
-          +---- serial-number                    string
-          +---- idevid-issuer?                   binary
-          +---- pinned-domain-cert?              binary
-          +---- domain-cert-revocation-checks?   boolean
-          +---- nonce?                           binary
-          +---- last-renewal-date?               yang:date-and-time
-          +---- pinned-certificate-authority?    binary
-          +---- pinned-certificate-name?         binary
-          +---- delegation-voucher?              binary
-          +---- intermediate-identities?         binary
-          +---- delegation-countdown?            int16
+       +-- voucher
+          +-- created-on                          yang:date-and-time
+          +-- expires-on?                         yang:date-and-time
+          +-- assertion                           enumeration
+          +-- serial-number                       string
+          +-- idevid-issuer?                      binary
+          +-- pinned-domain-cert?                 binary
+          +-- domain-cert-revocation-checks?      boolean
+          +-- nonce?                              binary
+          +-- last-renewal-date?                  yang:date-and-time
+          +-- pinned-delegation-cert-authority?   binary
+          +-- pinned-cdelegation-cert-name?       binary
+          +-- delegation-voucher?                 binary
+          +-- intermediate-identities?            binary
+          +-- delegation-countdown?               int16
 
 3.1.  YANG Module
 
@@ -332,10 +333,9 @@ Internet-Draft              delegated-voucher                 March 2020
 
 
 
-
-Richardson & Xia       Expires September 10, 2020               [Page 6]
+Richardson & Yang       Expires January 24, 2021                [Page 6]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
      contact
@@ -366,6 +366,14 @@ Internet-Draft              delegated-voucher                 March 2020
        uses voucher-delegated-grouping;
      }
 
+     leaf delegation-enable-flag {
+       type boolean;
+       description
+        "A global enable flag to the pledge that it can be delegated
+        (true) or not (false). With default, this flag is false,
+        which is consistent with the voucher artifact in RFC8366. ";
+   }
+
      // Grouping defined for future usage
      grouping voucher-delegated-grouping {
        description
@@ -378,32 +386,34 @@ Internet-Draft              delegated-voucher                 March 2020
          }
 
          augment "voucher" {
+
+
+
+Richardson & Yang       Expires January 24, 2021                [Page 7]
+
+Internet-Draft              delegated-voucher                  July 2020
+
+
            description "Base the delegated voucher
                         upon the regular one";
 
-           leaf pinned-certificate-authority {
+           leaf pinned-delegation-cert-authority {
              type binary;
              description
                "An subject-public-key-info for a public key of the
                 certificate authority that is to be trusted to issue
-
-
-
-Richardson & Xia       Expires September 10, 2020               [Page 7]
-
-Internet-Draft              delegated-voucher                 March 2020
-
-
-                a voucher to the Registrar.
-                This is not used by end-vouchers.";
+                a delegation voucher to the Registrar.
+                This is not used by end-vouchers, and only valid
+                when delegation-enable-flag is true.";
            }
 
-           leaf pinned-certificate-name {
+           leaf pinned-cdelegation-cert-name {
              type binary;
              description
                "A string for the rfc822Name SubjectAltName contents
-                which will be trusted to issue vouchers.
-                This is not used by end-vouchers.";
+                which will be trusted to issue delegation vouchers.
+                This is not used by end-vouchers, and only valid
+                when delegation-enable-flag is true.";
            }
 
            leaf delegation-voucher {
@@ -411,24 +421,35 @@ Internet-Draft              delegated-voucher                 March 2020
              description
                "The intermediate voucher that delegates
                 authority to the entity that signs this voucher
-                is to be included here.";
+                is to be included here, and only valid
+                when delegation-enable-flag is true.";
            }
 
            leaf intermediate-identities {
              type binary;
              description
                "A set of identities that will be needed to
-                validate the chain of vouchers. MAY BE REDUNDANT";
+                validate the chain of vouchers, and only valid
+                when delegation-enable-flag is true. MAY BE REDUNDANT";
            }
 
            leaf delegation-countdown {
              type int16;
              description
-             "Number of delegations still available. If zero
+             "Number of delegations still available, and only valid
+                when delegation-enable-flag is true. If zero
               or omitted, then this is a terminal voucher and
               may not be further delegated";
            }
          }
+
+
+
+Richardson & Yang       Expires January 24, 2021                [Page 8]
+
+Internet-Draft              delegated-voucher                  July 2020
+
+
        }
      }
    }
@@ -441,15 +462,6 @@ Internet-Draft              delegated-voucher                 March 2020
 
    This protocol requires a number of additional items to be returned to
    the pledge for evaluation: the series of Intermediate Vouchers that
-
-
-
-
-Richardson & Xia       Expires September 10, 2020               [Page 8]
-
-Internet-Draft              delegated-voucher                 March 2020
-
-
    leads to the DASA, and the public keys (often as certificates) of the
    Registrars on the Delegation Path that leads to each Authority.
 
@@ -486,6 +498,14 @@ Internet-Draft              delegated-voucher                 March 2020
    expected to validate the signature on this zeroth end-entity voucher.
    (XXX- This attribute can be replaced by the CMS certificate chain)
 
+
+
+
+Richardson & Yang       Expires January 24, 2021                [Page 9]
+
+Internet-Draft              delegated-voucher                  July 2020
+
+
    The contained delegation-voucher object is to be interpreted as an
    (Intermediate) Voucher.  This first voucher is called the first
    voucher, or "voucher[1]".  Generically, for voucher[i], the voucher
@@ -497,15 +517,6 @@ Internet-Draft              delegated-voucher                 March 2020
    voucher[n] is expected to be validated by a built-in manufacturer
    trust anchor.
 
-
-
-
-
-Richardson & Xia       Expires September 10, 2020               [Page 9]
-
-Internet-Draft              delegated-voucher                 March 2020
-
-
    Once the top (n-th) voucher is found, then the pinned-certificate-
    authority is added to the working set of trust anchors.  The "pinned-
    certificate-name" attribute is used along with the trust anchor to
@@ -515,7 +526,9 @@ Internet-Draft              delegated-voucher                 March 2020
 
 5.  Changes to Registrar Behavior
 
-   TBD
+   The Registrar is the component that authenticates the pledge, makes
+   authorization decisions, and distributes vouchers.  If the vouchers
+   is delegated, then the registrar need to co-ordinate MASA and DASA.
 
 5.1.  Discovering The Most Recent Delegated Authority to Use
 
@@ -542,6 +555,13 @@ Internet-Draft              delegated-voucher                 March 2020
    trust anchors for validating their MASA that is part of a sales
    channel integration.
 
+
+
+Richardson & Yang       Expires January 24, 2021               [Page 10]
+
+Internet-Draft              delegated-voucher                  July 2020
+
+
    The above override needs to be established on a per-device basis.  It
    requires per-device configuration which is very much non-autonomic.
 
@@ -552,15 +572,6 @@ Internet-Draft              delegated-voucher                 March 2020
        Registrar, it could redirect the Registrar to its DASA.  And the
        DASA may redirect the Registrar to its delegated DASA, this
        process is recursive to the final DASA.
-
-
-
-
-
-Richardson & Xia       Expires September 10, 2020              [Page 10]
-
-Internet-Draft              delegated-voucher                 March 2020
-
 
    2.  The Pledge could provide a signed statement from the manufacturer
        providing the Registrar with a pointer to the DASA.
@@ -580,13 +591,57 @@ Internet-Draft              delegated-voucher                 March 2020
 
 6.  Applying The Delegation Voucher to Requirements
 
-6.1.  applicability one
+6.1.  Case 1: Resale
 
-   TBD
+   This case has many scenarioes in application.
 
-6.2.  applicability two
+   For example, due to the willing of some devices' owner, or due to the
+   creditor or bankruptcy, their devices need to resale to some third
+   party, but they have previously been onboarded without specific
+   authorization from the manufacturer.  Aother example is for some
+   owner, which PKI system is on the cloud initially, but later, they
+   wish to change its CA, and it is effectively a "resale".  Then, the
+   registrar of third party must override MASA URL, contacting this
+   owner's registrar for voucher.  Here, the owner's registrar is
+   delegation authority.
 
-   TBD
+   Furthurly, the pledges may be resaled many times, and when
+   onboarding, they will receive all vouchers in order with the sale
+   chain, firstly masa vouchour, then 1st intermidate, 2nd intermidate,
+   till to the final dealer.  In this case, the pledge's authorization
+   form a signed voucher chain.
+
+
+
+Richardson & Yang       Expires January 24, 2021               [Page 11]
+
+Internet-Draft              delegated-voucher                  July 2020
+
+
+   In addition, for a pledge, resale can't be forever, so the delegation
+   voucher need specify the limit number of resales with "delegation-
+   countdown".
+
+   The following illustrates a delegation voucher for a pledge: { "ietf-
+   delegated-voucher:voucher": { "created-on": "2020-07-14T06:28:31Z",
+   "expire-on": "2022-07-31T01:61:80Z", "assertion": "logged", "serial-
+   number": "JADA123456789", "delegation-enable-flag": true, "pinned-
+   delegation-cert-authority": "base64encodedvalue", "pinned-delegation-
+   cert-name": "base64encodedvalue", "delegation-voucher":
+   "base64encodedvalue", "intermediate-identities": "intermediateId1",
+   "delegation-countdown": 1, } }
+
+6.2.  Case 2: Assembly
+
+   In some application, many pledges which come from multiple componet
+   manufactures, need to be assemblied together in the first sale, In
+   this time, the owner is assembly controller, so the pledge's voucher
+   need to include these delegation options.
+
+   In addition, there are also transparent assembly, for exmale rail
+   wagon scenario.  Firstly, the assembly onboards normally to get all
+   pledges' vouchers, then this assembly acts as intermidate registrar,
+   who "sell" these pledges to every rail wagon registrar.
 
 7.  Constraints on Pinning The Delegated Authority
 
@@ -613,9 +668,10 @@ Internet-Draft              delegated-voucher                 March 2020
 
 
 
-Richardson & Xia       Expires September 10, 2020              [Page 11]
+
+Richardson & Yang       Expires January 24, 2021               [Page 12]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
    guidelines do not follow template described by Section 3.7 of
@@ -658,20 +714,20 @@ Internet-Draft              delegated-voucher                 March 2020
               Pritikin, M., Richardson, M., Eckert, T., Behringer, M.,
               and K. Watsen, "Bootstrapping Remote Secure Key
               Infrastructures (BRSKI)", draft-ietf-anima-bootstrapping-
-              keyinfra-37 (work in progress), February 2020.
+              keyinfra-41 (work in progress), April 2020.
 
    [I-D.ietf-anima-constrained-voucher]
               Richardson, M., Stok, P., and P. Kampanakis, "Constrained
               Voucher Artifacts for Bootstrapping Protocols", draft-
-              ietf-anima-constrained-voucher-07 (work in progress),
-              January 2020.
+              ietf-anima-constrained-voucher-08 (work in progress), July
+              2020.
 
 
 
 
-Richardson & Xia       Expires September 10, 2020              [Page 12]
+Richardson & Yang       Expires January 24, 2021               [Page 13]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -725,9 +781,9 @@ Internet-Draft              delegated-voucher                 March 2020
 
 
 
-Richardson & Xia       Expires September 10, 2020              [Page 13]
+Richardson & Yang       Expires January 24, 2021               [Page 14]
 
-Internet-Draft              delegated-voucher                 March 2020
+Internet-Draft              delegated-voucher                  July 2020
 
 
 Appendix A.  Extra references
@@ -743,12 +799,10 @@ Authors' Addresses
    Email: mcr+ietf@sandelman.ca
 
 
-   Liang Xia (Frank)
-   Huawei
+   Jie Yang
+   Huawei Technologies Co., Ltd.
 
-   Email: frank.xialiang@huawei.com
-
-
+   Email: jay.yang@huawei.com
 
 
 
@@ -781,4 +835,6 @@ Authors' Addresses
 
 
 
-Richardson & Xia       Expires September 10, 2020              [Page 14]
+
+
+Richardson & Yang       Expires January 24, 2021               [Page 15]
