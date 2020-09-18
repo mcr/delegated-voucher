@@ -13,7 +13,7 @@ module: ietf-delegated-voucher
        +-- nonce?                              binary
        +-- last-renewal-date?                  yang:date-and-time
        +-- pinned-delegation-cert-authority?   binary
-       +-- pinned-cdelegation-cert-name?       binary
+       +-- pinned-delegation-cert-name?        binary
        +-- delegation-voucher?                 binary
        +-- intermediate-identities?            binary
        +-- delegation-countdown?               int16

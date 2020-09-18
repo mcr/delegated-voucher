@@ -5,8 +5,8 @@
 anima Working Group                                        M. Richardson
 Internet-Draft                                  Sandelman Software Works
 Intended status: Standards Track                                 J. Yang
-Expires: January 24, 2021                  Huawei Technologies Co., Ltd.
-                                                           July 23, 2020
+Expires: March 22, 2021                    Huawei Technologies Co., Ltd.
+                                                      September 18, 2020
 
 
           Delegated Authority for Bootstrap Voucher Artifacts
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 24, 2021.
+   This Internet-Draft will expire on March 22, 2021.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 1]
+Richardson & Yang        Expires March 22, 2021                 [Page 1]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    include Simplified BSD License text as described in Section 4.e of
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 2]
+Richardson & Yang        Expires March 22, 2021                 [Page 2]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    o  the MASA must be reachable to the Registar during the onboarding
@@ -165,9 +165,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 3]
+Richardson & Yang        Expires March 22, 2021                 [Page 3]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
 1.1.4.  Transparent Assemblers/Value-Added-Resellers
@@ -221,9 +221,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 4]
+Richardson & Yang        Expires March 22, 2021                 [Page 4]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    Delegation Voucher:  a Delegation Voucher is an [RFC8366] format
@@ -277,9 +277,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 5]
+Richardson & Yang        Expires March 22, 2021                 [Page 5]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    module: ietf-delegated-voucher
@@ -297,7 +297,7 @@ Internet-Draft              delegated-voucher                  July 2020
           +-- nonce?                              binary
           +-- last-renewal-date?                  yang:date-and-time
           +-- pinned-delegation-cert-authority?   binary
-          +-- pinned-cdelegation-cert-name?       binary
+          +-- pinned-delegation-cert-name?        binary
           +-- delegation-voucher?                 binary
           +-- intermediate-identities?            binary
           +-- delegation-countdown?               int16
@@ -333,9 +333,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 6]
+Richardson & Yang        Expires March 22, 2021                 [Page 6]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
      contact
@@ -389,9 +389,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 7]
+Richardson & Yang        Expires March 22, 2021                 [Page 7]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
            description "Base the delegated voucher
@@ -407,7 +407,7 @@ Internet-Draft              delegated-voucher                  July 2020
                 when delegation-enable-flag is true.";
            }
 
-           leaf pinned-cdelegation-cert-name {
+           leaf pinned-delegation-cert-name {
              type binary;
              description
                "A string for the rfc822Name SubjectAltName contents
@@ -445,9 +445,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 8]
+Richardson & Yang        Expires March 22, 2021                 [Page 8]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
        }
@@ -501,9 +501,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021                [Page 9]
+Richardson & Yang        Expires March 22, 2021                 [Page 9]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    The contained delegation-voucher object is to be interpreted as an
@@ -557,9 +557,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021               [Page 10]
+Richardson & Yang        Expires March 22, 2021                [Page 10]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    The above override needs to be established on a per-device basis.  It
@@ -613,9 +613,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021               [Page 11]
+Richardson & Yang        Expires March 22, 2021                [Page 11]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    In addition, for a pledge, resale can't be forever, so the delegation
@@ -669,9 +669,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021               [Page 12]
+Richardson & Yang        Expires March 22, 2021                [Page 12]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    guidelines do not follow template described by Section 3.7 of
@@ -714,7 +714,7 @@ Internet-Draft              delegated-voucher                  July 2020
               Pritikin, M., Richardson, M., Eckert, T., Behringer, M.,
               and K. Watsen, "Bootstrapping Remote Secure Key
               Infrastructures (BRSKI)", draft-ietf-anima-bootstrapping-
-              keyinfra-41 (work in progress), April 2020.
+              keyinfra-43 (work in progress), August 2020.
 
    [I-D.ietf-anima-constrained-voucher]
               Richardson, M., Stok, P., and P. Kampanakis, "Constrained
@@ -725,9 +725,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021               [Page 13]
+Richardson & Yang        Expires March 22, 2021                [Page 13]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -781,9 +781,9 @@ Internet-Draft              delegated-voucher                  July 2020
 
 
 
-Richardson & Yang       Expires January 24, 2021               [Page 14]
+Richardson & Yang        Expires March 22, 2021                [Page 14]
 
-Internet-Draft              delegated-voucher                  July 2020
+Internet-Draft              delegated-voucher             September 2020
 
 
 Appendix A.  Extra references
@@ -837,4 +837,4 @@ Authors' Addresses
 
 
 
-Richardson & Yang       Expires January 24, 2021               [Page 15]
+Richardson & Yang        Expires March 22, 2021                [Page 15]
