@@ -1,5 +1,4 @@
 module: ietf-delegated-voucher
-  +--rw delegation-enable-flag?   boolean
 
   grouping voucher-delegated-grouping
     +-- voucher
@@ -12,6 +11,7 @@ module: ietf-delegated-voucher
        +-- domain-cert-revocation-checks?      boolean
        +-- nonce?                              binary
        +-- last-renewal-date?                  yang:date-and-time
+       +-- delegation-enable-flag?             boolean
        +-- pinned-delegation-cert-authority?   binary
        +-- pinned-delegation-cert-name?        binary
        +-- delegation-voucher?                 binary
