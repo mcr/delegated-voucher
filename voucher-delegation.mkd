@@ -1,9 +1,9 @@
 ---
 title: Delegated Authority for Bootstrap Voucher Artifacts
 abbrev: delegated-voucher
-docname: draft-richardson-anima-voucher-delegation-02
+docname: draft-richardson-anima-voucher-delegation-03
 
-# stand_alone: true
+stand_alone: true
 
 ipr: trust200902
 area: Internet
@@ -22,10 +22,10 @@ author:
   name: Michael Richardson
   org: Sandelman Software Works
   email: mcr+ietf@sandelman.ca
-- ins: J. Yang
-  name: Jie Yang
-  org: Huawei Technologies Co., Ltd.
-  email: jay.yang@huawei.com
+- ins: W. Pan
+  name: Wei Pan
+  org: Huawei Technologies
+  email: william.panwei@huawei.com
 
 normative:
   RFC8174:
