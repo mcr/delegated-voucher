@@ -1,7 +1,7 @@
 ---
 title: Delegated Authority for Bootstrap Voucher Artifacts
 abbrev: delegated-voucher
-docname: draft-richardson-anima-voucher-delegation-03
+docname: draft-ietf-anima-voucher-delegation-00
 
 stand_alone: true
 
