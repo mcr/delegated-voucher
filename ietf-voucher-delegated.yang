@@ -1,8 +1,8 @@
-module ietf-delegated-voucher {
+module ietf-voucher-delegated {
   yang-version 1.1;
 
   namespace
-    "urn:ietf:params:xml:ns:yang:ietf-delegated-voucher";
+    "urn:ietf:params:xml:ns:yang:ietf-voucher-delegated";
   prefix "delegated";
 
   import ietf-restconf {
@@ -67,9 +67,10 @@ module ietf-delegated-voucher {
         leaf delegation-enable-flag {
           type boolean;
           description
-            "A global enable flag to the pledge that it can be delegated
-             (true) or not (false). With default, this flag is false,
-             which is consistent with the voucher artifact in RFC8366. ";
+            "A global enable flag to the pledge that it can be
+             delegated (true) or not (false). With default,
+             this flag is false, which is consistent with
+             the voucher artifact in RFC8366. ";
         }
 
         leaf pinned-delegation-cert-authority {

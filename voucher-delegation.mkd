@@ -1,7 +1,7 @@
 ---
 title: Delegated Authority for Bootstrap Voucher Artifacts
 abbrev: delegated-voucher
-docname: draft-ietf-anima-voucher-delegation-00
+docname: draft-ietf-anima-voucher-delegation-01
 
 stand_alone: true
 
@@ -181,14 +181,14 @@ delegation-countdown:
 
 In addition, the serial-number field is no longer a plain leaf, but can also be an array (See {{delegationmultidev}}).
 
-INSERT_FIG_FROM_FILE ietf-delegated-voucher-tree.txt END
+INSERT_FIG_FROM_FILE ietf-voucher-delegated-tree.txt END
 
 ## YANG Module
 
 This module uses the grouping that was created in {{RFC8366}} to extend the
 definition.
 
-INSERT_FIG_FROM_FILE ietf-delegated-voucher@DATE.yang END
+INSERT_FIG_FROM_FILE ietf-voucher-delegated@DATE.yang END
 
 ## Bundling of The Vouchers
 
@@ -321,7 +321,7 @@ In addition, for a pledge, resale can't be forever, so the delegation voucher ne
 
 The following illustrates a delegation voucher for a pledge:
    {
-     "ietf-delegated-voucher:voucher": {
+     "ietf-voucher-delegated:voucher": {
        "created-on": "2020-07-14T06:28:31Z",
        “expire-on”: “2022-07-31T01:61:80Z”,
        "assertion": "logged",
@@ -376,7 +376,7 @@ IANA is asked to register the following:
 
 
 ~~~~
-     URI: urn:ietf:params:xml:ns:yang:ietf-delegated-voucher
+     URI: urn:ietf:params:xml:ns:yang:ietf-voucher-delegated
      Registrant Contact: The ANIMA WG of the IETF.
      XML: N/A, the requested URI is an XML namespace.
 ~~~~
@@ -387,8 +387,8 @@ This document registers a YANG module in the "YANG Module Names" registry {{RFC6
 IANA is asked to register the following:
 
 ~~~~
-     name:         ietf-delegated-voucher
-     namespace:    urn:ietf:params:xml:ns:yang:ietf-delegated-voucher
+     name:         ietf-voucher-delegated
+     namespace:    urn:ietf:params:xml:ns:yang:ietf-voucher-delegated
      prefix:       NONE
      reference:    THIS DOCUMENT
 ~~~~

@@ -1,4 +1,4 @@
-module: ietf-delegated-voucher
+module: ietf-voucher-delegated
 
   grouping voucher-delegated-grouping
     +-- voucher

@@ -1,9 +1,9 @@
 DRAFT:=voucher-delegation
 VERSION:=$(shell ./getver ${DRAFT}.mkd )
 YANGDATE=2020-01-06
-YANGFILE=yang/ietf-delegated-voucher@${YANGDATE}.yang
+YANGFILE=yang/ietf-voucher-delegated@${YANGDATE}.yang
 PYANG=pyang
-EXAMPLES=ietf-delegated-voucher-tree.txt
+EXAMPLES=ietf-voucher-delegated-tree.txt
 EXAMPLES+=${YANGFILE}
 
 ${DRAFT}-${VERSION}.txt: ${DRAFT}.txt
@@ -21,12 +21,12 @@ ${DRAFT}-${VERSION}.txt: ${DRAFT}.txt
 %.html: %.xml
 	unset DISPLAY; XML_LIBRARY=$(XML_LIBRARY):./src xml2rfc --html -o $@ $?
 
-ietf-delegated-voucher-tree.txt: ${YANGFILE}
-	${PYANG} --path=../../anima/bootstrap/yang --path=../../anima/voucher -f tree --tree-print-groupings --tree-line-length=70 ${YANGFILE} > ietf-delegated-voucher-tree.txt
+ietf-voucher-delegated-tree.txt: ${YANGFILE}
+	${PYANG} --path=../../anima/bootstrap/yang --path=../../anima/voucher -f tree --tree-print-groupings --tree-line-length=70 ${YANGFILE} > ietf-voucher-delegated-tree.txt
 
-${YANGFILE}: ietf-delegated-voucher.yang
+${YANGFILE}: ietf-voucher-delegated.yang
 	mkdir -p yang
-	sed -e"s/YYYY-MM-DD/${YANGDATE}/" ietf-delegated-voucher.yang > ${YANGFILE}
+	sed -e"s/YYYY-MM-DD/${YANGDATE}/" ietf-voucher-delegated.yang > ${YANGFILE}
 
 
 submit: ${DRAFT}.xml
@@ -37,5 +37,6 @@ version:
 
 clean:
 	-rm -f ${DRAFT}.xml
+	-rm -f *~
 
 .PRECIOUS: ${DRAFT}.xml
