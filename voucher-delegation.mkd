@@ -37,9 +37,6 @@ informative:
   RFC3688:
   RFC8572:
   RFC8040:
-  RFC5652:
-  RFC6241:
-  RFC8407:
   RFC6020:
 
 --- abstract
