@@ -30,7 +30,7 @@ author:
 normative:
   RFC8174:
   RFC8366:
-  I-D.ietf-anima-bootstrapping-keyinfra:
+  RFC8995: BRSKI
   I-D.ietf-anima-constrained-voucher:
 
 informative:
@@ -49,7 +49,7 @@ in order to support delegation of signing authority.  The initial voucher
 pins a public identity, and that public indentity can then issue additional
 vouchers.  This chain of authorization can support permission-less resale
 of devices, as well as guarding against business failure of the
-BRSKI {{I-D.ietf-anima-bootstrapping-keyinfra}} Manufacturer Authorized Signing Authority (MASA).
+BRSKI Manufacturer Authorized Signing Authority (MASA).
 
 --- middle
 
@@ -57,14 +57,14 @@ BRSKI {{I-D.ietf-anima-bootstrapping-keyinfra}} Manufacturer Authorized Signing 
 
 The {{RFC8366}} voucher artifact provides a proof from a manufacturer's
 authorizing signing authority (MASA) of the intended owner of a device.  This is
-used by an onboarding Pledge device in BRSKI ({{I-D.ietf-anima-bootstrapping-keyinfra}},
+used by an onboarding Pledge device in BRSKI ({{-BRSKI}},
 {{I-D.ietf-anima-constrained-voucher}}), and SZTP ({{RFC8572}}).
 
 There are a number of criticisms of the MASA concept.  They include:
 
 * the MASA must be reachable to the Registar during the onboarding process.
 
-* while the use of a nonceless voucher (see {{RFC8366} section 4) can
+* while the use of a nonceless voucher (see {{RFC8366}} section 4) can
   permit the MASA to be offline, it still requires the public key/certificate
   of the Registrar to be known at issuing time. The device owner is always
   strongly dependent on the MASA service.
@@ -192,8 +192,7 @@ INSERT_FIG_FROM_FILE ietf-voucher-delegated@DATE.yang END
 
 ## Bundling of The Vouchers
 
-The {{I-D.ietf-anima-bootstrapping-keyinfra}} defines a mechanism to return a
-single voucher to the pledge.
+{{-BRSKI}} defines a mechanism to return a single voucher to the pledge.
 
 This protocol requires a number of additional items to be returned to the
 pledge for evaluation:  the series of Intermediate Vouchers that leads to the
@@ -262,7 +261,7 @@ The Registrar is the component that authenticates the pledge, makes authorizatio
 The pledge continues to use its manufacturer issued IDevID when performing
 BRSKI-style onboarding.
 The IDevID contains an extension, the MASA URL (see
-{{I-D.ietf-anima-bootstrapping-keyinfra}} section 2.3.2).
+{{-BRSKI}} section 2.3.2).
 The IDevID certificate is not expected to be updated when the device is
 resold, nor may it be practical for an intermediate owner to be able
 to replace the IDevID with their own.
@@ -273,7 +272,7 @@ The Registrar needs to be informed that it should not contact a MASA using
 the URL in the IDevID, but rather to contact the previous owner's DASA.
 
 This can be accomplished by local override, as described in
-{{I-D.ietf-anima-bootstrapping-keyinfra}} section 5.4:
+{{-BRSKI}} section 5.4:
 
     Registrars MAY include a mechanism to override
     the MASA URL on a manufacturer-by-manufacturer basis, and within that
@@ -304,20 +303,37 @@ The most difficult problem is that the Pledge needs to (a) store one or more
 Delegation Vouchers in a non-volatile storage that survives factory reset
 operations, (b) attach these items to the pledge's voucher-request.
 
-The extension to the {{I-D.ietf-anima-bootstrapping-keyinfra}}
+The extension to the {{-BRSKI}}
 voucher-request described below provides for a contained for these Delegation Vouchers.
 
 # Applying The Delegation Voucher to Requirements
 
 ## Case 1: Resale
 
-This case has many scenarioes in application.
+This case has many application scenarios.
 
-For example, due to the willing of some devices' owner, or due to the creditor or bankruptcy, their devices need to resale to some third party, but they have previously been onboarded without specific authorization from the manufacturer. Aother example is for some owner, which PKI system is on the cloud initially, but later, they wish to change its CA, and it is effectively a "resale". Then, the registrar of third party must override MASA URL, contacting this owner's registrar for voucher. Here, the owner's registrar is delegation authority.
+The simplest is that a device, previously owned by one entity is sold to another entity.
+This would include many large home appliances (furnace, stove, refriderator) which are either sold with the home (because they are attached), or for which there is a frequent resale market.
+Entire systems (HVAC, physical security, elevators) in commercial buildings also fall into this category.
+Many of these devices exist for decades.
 
-Furthurly, the pledges may be resaled many times, and when onboarding, they will receive all vouchers in order with the sale chain, firstly masa vouchour, then 1st intermidate, 2nd intermidate, till to the final dealer. In this case, the pledge's authorization form a signed voucher chain.
+The initial onboarder would obtain a delegated voucher, and would keep this voucher safe.
+Should the device need to be resold, this voucher is provided to the new owner.
+This protects the first owner from situations where the manufacturer is unwilling, or goes into bankruptcy.
 
-In addition, for a pledge, resale can't be forever, so the delegation voucher need specify the limit number of resales with "delegation-countdown".
+A creditor, such as a bank, which may take the property, including required systems as collatoral for a loan could require that a delegated voucher be obtained.
+A bank would find a building that needed new systems installed difficult to resale should the bank have to foreclose.
+It is likely that this requirement would make devices which do not come with delegated vouchers significant liabilities, and that financial institutions (banks, insurance companies) might refuse to lend in this case.
+
+As a different example,  an owner might initially start with some hosted Registrar (in the cloud perhaps, as a service).  Later on, the owner wishes to bring the Registrar in-house (or just change who is providing the Registrar service).
+Such an activity is effectively a "resale".
+
+It is common when a company goes bankrupt that many of it's assets (routers, switches, desktops, as well as furniture) are sold by the court.
+There are many resellers of digital equipment, and they typically take the devices, factory reset them, verify that they work, and then list them for resale.
+Such an entity would want to have a delegated voucher for each device.
+Whether the delegated voucher would be obtained from the original (bankrupt) company, by the court, or directly from the manufacturer is probably a legal problem.
+
+Further, the pledges may be resaled many times, and when onboarding, they will receive all vouchers in order with the sale chain, firstly masa vouchour, then 1st intermidate, 2nd intermidate, till to the final dealer. In this case, the pledge's authorization form a signed voucher chain.
 
 The following illustrates a delegation voucher for a pledge:
    {
@@ -331,15 +347,18 @@ The following illustrates a delegation voucher for a pledge:
        "pinned-delegation-cert-name": "base64encodedvalue",
        "delegation-voucher": "base64encodedvalue",
        "intermediate-identities": "intermediateId1",
-       "delegation-countdown": 1,
+       "delegation-enable-flag": 1,
      }
    }
 
 ## Case 2: Assembly
 
-In some application, many pledges which come from multiple componet manufactures, need to be assemblied together in the first sale, In this time, the owner is assembly controller, so the pledge's voucher need to include these delegation options.
+In some application, many pledges which come from multiple component assembled by a system integrated.
+They need to to be assembled together in the first sale.
+In this time, the owner is assembly controller, so the pledge's voucher need to include these  delegation options.
 
-In addition, there are also transparent assembly, for exmale rail wagon scenario. Firstly, the assembly onboards normally to get all pledges' vouchers, then this assembly acts as intermidate registrar, who "sell" these pledges to every rail wagon registrar.
+In addition, there are also transparent assembly, for example rail wagon scenario.
+Firstly, the assembly onboards normally to get all pledges' vouchers, then this assembly acts as intermidate registrar, who "sell" these pledges to every rail wagon registrar.
 
 # Constraints on Pinning The Delegated Authority {#pinnedmechanism}
 
@@ -351,19 +370,19 @@ YYY
 
 # Security Considerations
 
-## YANG Module Security Considerations
+## Delegation Vouchers do not expire
 
-As described in the Security Considerations section of {{RFC8366}} (section 7.4), the YANG module specified
-in this document defines the schema for data that is subsequently
-encapsulated by a CMS signed-data content type, as described in Section 5 of
-{{RFC5652}}. As such, all of the YANG modeled data is protected from modification.
+A significant feature of the {{RFC8366}} voucher is that it can be short-lived, and often renewed if needed.
+This goes along with the arguments that renewal is better than revocation explained better in {{?RFC8739}}.
+However, in order for a delegated voucher to be useful it has to have a life longer than the pessimistic expected life of the manufacturer (MASA).
+This argues for the expiry time of a voucher to be rather long (decades), if not actually infinite.
 
-The use of YANG to define data structures, via the 'yang-data'
-statement, is relatively new and distinct from the traditional use
-of YANG to define an API accessed by network management protocols
-such as NETCONF {{RFC6241}} and RESTCONF {{RFC8040}}.
-For this reason, these guidelines do not follow template described by
-Section 3.7 of {{RFC8407}}.
+{{RFC8995}} makes arguments for why a Pledge dos not need to have a clock that it can trust, because it can use a nonce to verify freshness of the resulting Voucher.
+The Delegated Voucher can not use a nonce to verify the chain of delegated vouchers presented, although it can use a nonce for the last (non-delegated) voucher.
+
+
+
+
 
 # IANA Considerations
 
